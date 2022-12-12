@@ -1,0 +1,158 @@
+.bannerImg {
+    width: 100%;
+    height: calc(100vh - 80px) !important;
+    position: relative;
+    z-index: 9;
+}
+
+.pr {
+    position: relative;
+}
+
+.bannertxt {
+    position: absolute;
+    z-index: 999;
+    top: 35%;
+    left: 20%;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5em 3rem;
+}
+
+.navlinkWrap {
+    display: flex;
+    list-style: none !important;
+}
+
+.navlinkWrap a {
+    text-decoration: none !important;
+    margin-left: 1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.navlinkWrap active {
+    color: #19291E;
+}
+
+.navlinkWrap active:focus {
+    color: #19291E;
+}
+
+.logowrap {
+    width: 150px;
+    height: 60px !important;
+}
+
+.logowrap img {
+    width: 100%;
+}
+
+.bannertxt .css-1aj0uh1-MuiButtonBase-root-MuiButton-root {
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    color: #fff;
+}
+
+.bgLight {
+    background-color: #D6E4E5 !important;
+}
+
+.bannertxt .css-1aj0uh1-MuiButtonBase-root-MuiButton-root:hover {
+    border: 1px solid rgba(255, 255, 255);
+    color: #fff;
+}
+
+.td_none {
+    text-decoration: none !important;
+}
+
+.navbar {
+    background-color: #D6E4E5
+}
+
+.inputs {
+    /* width: calc(50% - 1rem); */
+    width: 48%;
+    margin-bottom: 2rem !important;
+}
+
+.phoneNumber {
+    /* width: 100%; */
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: .375rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    height: auto;
+    height: 2.4375em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.PhoneInputInput {
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: none !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: .375rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.PhoneInputInput:focus {
+    border: none !important;
+}
+
+.PhoneInputInput:focus-visible {
+    border: none !important;
+    outline: none !important;
+}
+
+.overHidden {
+    overflow-x: hidden !important;
+}
+
+.textArea {
+    display: block;
+    width: 95%;
+    min-height: 40px !important;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .375rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out
+}
+
+.textArea:focus-visible {
+    border-color: #1976D2;
+    outline-color: #1976D2;
+}
+
+.customContainer {
+    width: calc(100% - 50px);
+    margin: auto;
+}
