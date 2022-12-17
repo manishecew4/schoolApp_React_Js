@@ -20,6 +20,15 @@ const dataReducer = (state = initialData, action) => {
                     }
                 ]
             }
+
+        case "DELETE_DATA":
+            // const { id, data } = action.payload;
+            // const newList = state.list.filter((items) => items.id !== action.id)
+            
+            return {
+                ...state,
+                list: action.payload
+            }
         default: return state;
     }
 }

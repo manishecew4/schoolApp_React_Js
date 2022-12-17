@@ -15,7 +15,8 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import moment from 'moment';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { prevClassArr, nextClassArr, defaultValue, countryAPI } from '../utils/constant'
-import { useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 import { addData, deleteData } from '../action/index'
 
 function Admission() {
@@ -24,6 +25,7 @@ function Admission() {
     const [countryList, setCountryList] = useState()
     const [prevClass, setPrevClass] = useState([...defaultValue, ...prevClassArr])
     const [nextClass, setNextClass] = useState([...defaultValue, ...nextClassArr]);
+    const [data, setData] = useState()
     const [form, setForm] = useState({
         firstName: "",
         lastName: "",
@@ -32,11 +34,14 @@ function Admission() {
         prevClass: "",
         address: "",
         date: "",
-        country: ""
+        country: "",
+        phoneNo: "",
     })
+    console.log("form", form);
     const [date, setDate] = useState(moment('2014-08-18T21:11:54'));
 
     const dispatch = useDispatch();
+    const history = useNavigate();
 
     useEffect(() => {
 
@@ -47,21 +52,9 @@ function Admission() {
         fetch(countryAPI)
             .then(response => response.json())
             .then(res => {
-                for (let i = 0; i < res.length; i++) {
-                    setCountryList(res);
-                }
+                setCountryList(res);
             })
     }
-
-    const handleSelectChange = (e) => {
-        setDate(e);
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value
-        })
-
-    }
-    console.log("form", form);
 
     useEffect(() => {
         if (form.prevClass !== "") {
@@ -77,8 +70,36 @@ function Admission() {
                 setNextClass([...defaultValue, ...tempNextClassArr])
             }
         }
-    }, [form.prevClass, prevClass])
+    }, [form.prevClass, prevClass]);
 
+    const handleSelectChange = (e) => {
+        // setDate(e);
+        console.log("Event", e);
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const phoneNumber = (e) => {
+        console.log("phone", e);
+        setPhoneNo(e)
+        setForm({
+            ...form,
+            phoneNo: e
+        })
+    }
+
+
+
+    const saveForm = () => {
+
+        dispatch(addData(form));
+
+        console.log("phoneNo", phoneNo);
+
+        history("/Applicants");
+    }
 
     return (
         <div className="main p-5">
@@ -140,15 +161,17 @@ function Admission() {
                     </Select>
                 </FormControl>
 
-                {/* <div className="inputs">
+                <div className="inputs">
                     <PhoneInput
                         defaultCountry="IN"
                         className="phoneNumber"
                         placeholder="Enter phone number"
                         value={phoneNo}
-                        onChange={(e) => handleSelectChange(e)}
+                        name="phoneNo"
+                        // onChange={(e) => handleSelectChange(e)}
+                        onChange={(e) => phoneNumber(e)}
                     />
-                </div> */}
+                </div>
 
                 <FormControl className="inputs">
                     <InputLabel id="demo-simple-select-label">Select Country</InputLabel>
@@ -163,7 +186,6 @@ function Admission() {
                     >
                         {
                             countryList?.map((item, idx) =>
-
                                 <MenuItem key={idx} value={item.name.common}>{`${item.cca2} - ${item.name.common}`}</MenuItem>
                             )
                         }
@@ -197,7 +219,7 @@ function Admission() {
                     </LocalizationProvider>
                 </div>
                 <div className="d-flex w-100">
-                    <Button variant="outlined" onClick={() => dispatch(addData(form))}>Save</Button>
+                    <Button variant="outlined" onClick={saveForm}>Save</Button>
                 </div>
             </div>
 

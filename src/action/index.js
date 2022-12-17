@@ -7,8 +7,9 @@ export const addData = (data) => {
         }
     }
 }
-export const deleteData = () => {
+export const deleteData = (payload) => {
     return {
         type: 'DELETE_DATA',
+        payload
     }
 }

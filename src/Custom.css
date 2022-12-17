@@ -156,3 +156,17 @@
     width: calc(100% - 50px);
     margin: auto;
 }
+
+.searchWrap {
+    max-width: 500px !important;
+}
+
+.searchIconWrap {
+    width: 50px;
+}
+
+.searchbar {
+    border: none !important;
+    outline: none !important;
+    width: calc(100% - 50px);
+}

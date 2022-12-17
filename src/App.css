@@ -612,3 +612,12 @@ td {
 tr:nth-child(even) {
     background-color: #D6EEEE;
 }
+
+.view {
+    color: #439A97;
+    margin-right: 1rem;
+}
+
+.delete {
+    color: #CB1C8D
+}
