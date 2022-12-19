@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import Button from '@mui/material/Button';
@@ -9,23 +9,25 @@ import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import moment from 'moment';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { prevClassArr, nextClassArr, defaultValue, countryAPI } from '../utils/constant'
 import { useDispatch } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-import { addData, deleteData } from '../action/index'
+import { addData } from '../action/index';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 function Admission() {
 
+    const [openSnack, setOpenSnack] = React.useState(false);
+    const [openSnackEmail, setOpenSnackEmail] = React.useState(false);
     const [phoneNo, setPhoneNo] = useState('');
     const [countryList, setCountryList] = useState()
     const [prevClass, setPrevClass] = useState([...defaultValue, ...prevClassArr])
     const [nextClass, setNextClass] = useState([...defaultValue, ...nextClassArr]);
-    const [data, setData] = useState()
     const [form, setForm] = useState({
         firstName: "",
         lastName: "",
@@ -36,8 +38,8 @@ function Admission() {
         date: "",
         country: "",
         phoneNo: "",
+        email: ""
     })
-    console.log("form", form);
     const [date, setDate] = useState(moment('2014-08-18T21:11:54'));
 
     const dispatch = useDispatch();
@@ -73,8 +75,7 @@ function Admission() {
     }, [form.prevClass, prevClass]);
 
     const handleSelectChange = (e) => {
-        // setDate(e);
-        console.log("Event", e);
+
         setForm({
             ...form,
             [e.target.name]: e.target.value
@@ -82,24 +83,60 @@ function Admission() {
     }
 
     const phoneNumber = (e) => {
-        console.log("phone", e);
         setPhoneNo(e)
         setForm({
             ...form,
             phoneNo: e
         })
     }
+    const selectDate = (e) => {
+        setDate(e)
+        let con_date = moment(e._i).format('MM/DD/YYYY');
+        setForm({
+            ...form,
+            date: con_date
+        })
+    };
 
-
+    const validateEmail = (email) => {
+        return String(email)
+            .toLowerCase()
+            .match(
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            );
+    };
 
     const saveForm = () => {
+        let { firstName, lastName, gender, nextClass, prevClass, address, date, country, phoneNo, email } = form;
+        if (firstName && lastName && gender && nextClass && prevClass && address && date && country && phoneNo && email) {
 
-        dispatch(addData(form));
+            if (!validateEmail(email)) {
+                setOpenSnackEmail(true);
+                return;
+            }
+            dispatch(addData(form));
+            history("/Applicants");
 
-        console.log("phoneNo", phoneNo);
+        }
+        else {
+            setOpenSnack(true)
+        }
 
-        history("/Applicants");
+
     }
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpenSnack(false);
+    };
+
+    const Alert = React.forwardRef(function Alert(props, ref) {
+        return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+    });
+
 
     return (
         <div className="main p-5">
@@ -168,7 +205,6 @@ function Admission() {
                         placeholder="Enter phone number"
                         value={phoneNo}
                         name="phoneNo"
-                        // onChange={(e) => handleSelectChange(e)}
                         onChange={(e) => phoneNumber(e)}
                     />
                 </div>
@@ -182,7 +218,6 @@ function Admission() {
                         name="country"
                         label="Select Country"
                         onChange={(e) => handleSelectChange(e)}
-                    // onChange={country => setCountry(country)}
                     >
                         {
                             countryList?.map((item, idx) =>
@@ -206,14 +241,12 @@ function Admission() {
 
                 <div className="inputs">
                     <LocalizationProvider dateAdapter={AdapterMoment} className="w-100">
-                        <MobileDatePicker
+                        <DatePicker
+                            label="Select Date"
                             className="w-100"
-                            label="Date"
-                            inputFormat="MM/DD/YYYY"
                             value={date}
-                            // name="date"
-                            onChange={(e) => handleSelectChange(e)}
-                            // onChange={dateChange}
+                            inputFormat="DD/MM/YYYY"
+                            onChange={(e) => selectDate(e)}
                             renderInput={(params) => <TextField {...params} />}
                         />
                     </LocalizationProvider>
@@ -222,7 +255,16 @@ function Admission() {
                     <Button variant="outlined" onClick={saveForm}>Save</Button>
                 </div>
             </div>
-
+            <Snackbar open={openSnack} autoHideDuration={1000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+                    Please fill all fields.
+                </Alert>
+            </Snackbar>
+            <Snackbar open={openSnackEmail} autoHideDuration={1000}>
+                <Alert severity="warning" sx={{ width: '100%' }}>
+                    Email is not valid
+                </Alert>
+            </Snackbar>
         </div >
     )
 }

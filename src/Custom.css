@@ -170,3 +170,20 @@
     outline: none !important;
     width: calc(100% - 50px);
 }
+
+.search_bar {
+    max-width: 50% !important;
+    margin: auto !important;
+    margin-bottom: 1rem !important;
+}
+
+.w-40 {
+    width: 40%;
+}
+
+.closeModal {
+    margin-left: auto;
+    position: absolute;
+    right: 16px;
+    top: 16px;
+}

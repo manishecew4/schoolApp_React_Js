@@ -1,11 +1,11 @@
 const initialData = {
     list: [],
 }
-console.log(initialData);
+// console.log(initialData);
 
 const dataReducer = (state = initialData, action) => {
 
-    console.log("State", state);
+    // console.log("State", state);
 
     switch (action.type) {
         case "ADD_DATA":
